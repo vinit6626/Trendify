@@ -1,0 +1,82 @@
+/* Footer start */
+
+.dark-footer {
+    background-color: #333; 
+    color: white; 
+  }
+  
+.footerInfo, .contact_number, .timing, address {
+    color: white;
+}
+
+footer{
+    padding-bottom: 25px;
+}
+.copyright{
+    margin-bottom: 20px;
+}
+
+/* Footer end */
+
+    /* about us page start */
+    .staff-card {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+  
+    .staff-photo {
+        border-radius: 50%;
+        width: 300px;
+        height: 300px;
+        object-fit: cover;
+        margin-bottom: 10px;
+    }
+   
+    /* about us page end */
+
+    /* Home start */
+    .custom-bg {
+        background-image: url('../images/home1.jpg');
+        background-size: cover; 
+        background-position: center;
+        background-repeat: no-repeat; 
+      }
+
+      .homepage-heading-section{
+        height: 400px;
+    }
+
+    .homepage-heading-div{
+        padding: 130px;
+    }
+
+    .homepage-image-card{
+        height: 550px;
+    }
+
+    .homepage-section-info{
+        width: 100%;
+        margin: auto;
+    }
+
+    .homepage-image-about{
+        margin: 60px auto;
+        height: 300px;
+        border-radius: 10%;
+    }
+
+    .homepage-three-icon-Section{
+        height:380px;
+    }
+
+    .homepage-features-box {
+        padding: 5%;
+    }
+    .icons {
+        color: #ef8172;
+        margin-bottom: 1rem;
+    }
+    .homeheading{
+        color: #DBCBB3;
+    }
+    /* Home end */
