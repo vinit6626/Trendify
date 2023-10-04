@@ -1,0 +1,120 @@
+<%- include("partials/header.ejs") -%>
+
+<div class="container login mb-5">
+    <% if (msg) { %>
+      <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
+        <strong><%= msg %></strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <% } %>
+<div class="container">
+    <div class="row justify-content-center mt-3">
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <form name="myForm" action="/profileupdate" method="post" class="container userForm" onsubmit="return validateForm()">
+                <h3 class="card-title center mb-4 text-center"><b>Profile</b></h3>
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email</label>
+                  <input type="email" class="form-control padding04" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" placeholder="Enter email" value="<%= email %>" disabled>
+                  <input type="hidden" name="email" value="<%= email %>" >
+                </div>
+                <div class="form-group">
+                  <label for="fname">First Name</label>
+                  <input type="text" class="form-control" id="fname" placeholder="Enter First Name e.g Pankaj" name="fname" value="<%= userData.fname === 'default' ? '' : userData.fname %>">
+                  <span id="fnameError" style="color:red"></span>
+                </div>
+                <div class="form-group">
+                  <label for="lname">Last Name</label>
+                  <input type="text" class="form-control" id="lname" placeholder="Enter Last Name e.g Bains" name="lname" value="<%= userData.lname === 'default' ? '' : userData.lname %>">
+                  <span id="lnameError" style="color:red"></span>
+                </div>
+                <div class="form-group">
+                  <label for="address">Address</label>
+                  <input type="text" class="form-control" id="address" placeholder="Enter Your Address" name="address" value="<%= userData.address === 'default' ? '' : userData.address %>">
+                  <span id="addressError" style="color:red"></span>
+                </div>
+                <div class="form-group">
+                  <label for="zipcode">Zip Code</label>
+                  <input type="text" class="form-control" id="zipcode" placeholder="Enter Your Zip Code" name="zipcode" value="<%= userData.zipcode === 'default' ? '' : userData.zipcode %>">
+                  <span id="zipcodeError" style="color:red"></span>
+                </div>
+                <div class="form-group">
+                  <label for="contactno">Contact Number</label>
+                  <input type="text" class="form-control" id="contactno" placeholder="Enter Your Contact Number" name="contactno" value="<%= userData.contactno === 'default' ? '' : userData.contactno %>">
+                  <span id="contactnoError" style="color:red"></span>
+                </div>
+                <p class="text-center">
+                  <button type="submit" class="btn btn-primary">Update Profile</button>
+                </p>
+              </form>
+              
+              
+          </div>
+        </div>
+      </div>
+
+    </div>
+</div>
+  </div>
+  </body>
+<%- include("partials/footer.ejs") -%>
+
+<script>
+    function validateForm() {
+        var fname = document.getElementById("fname").value;
+        var lname = document.getElementById("lname").value;
+        var address = document.getElementById("address").value;
+        var zipcode = document.getElementById("zipcode").value;
+        var contactno = document.getElementById("contactno").value;
+
+        var fnameError = document.getElementById("fnameError");
+        var lnameError = document.getElementById("lnameError");
+        var addressError = document.getElementById("addressError");
+        var zipcodeError = document.getElementById("zipcodeError");
+        var contactnoError = document.getElementById("contactnoError");
+
+        var isValid = true;
+
+        // Reset error messages
+        fnameError.innerHTML = "";
+        lnameError.innerHTML = "";
+        addressError.innerHTML = "";
+        zipcodeError.innerHTML = "";
+        contactnoError.innerHTML = "";
+
+        // Validation logic
+        if (fname.trim() === "") {
+            fnameError.innerHTML = "First Name is required.";
+            isValid = false;
+        }
+
+        if (lname.trim() === "") {
+            lnameError.innerHTML = "Last Name is required.";
+            isValid = false;
+        }
+
+        if (address.trim() === "") {
+            addressError.innerHTML = "Address is required.";
+            isValid = false;
+        }
+
+        // Zip code format validation (e.g., N2C 1M3)
+        var zipCodePattern = /^[A-Z]\d[A-Z] \d[A-Z]\d$/;
+        if (!zipCodePattern.test(zipcode)) {
+            zipcodeError.innerHTML = "Invalid Zip Code format. Use format like A1B 2C3.";
+            isValid = false;
+        }
+
+        // Contact number validation (10 digits)
+        var contactNumberPattern = /^\d{10}$/;
+        if (!contactNumberPattern.test(contactno)) {
+            contactnoError.innerHTML = "Contact Number must be 10 digits.";
+            isValid = false;
+        }
+
+        return isValid;
+    }
+</script>
