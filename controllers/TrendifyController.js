@@ -144,13 +144,10 @@ class TrendifyController {
             console.log("hello");
             res.render("passwordreset.ejs", { msg: "😢 User Not Found, Please Enter Valid Email" });
         } else {
-            // Generate a 6-digit random code
             const randomCode = generateRandomCode();
     
-            // Update the user's record with the random code
             await userDataModel.updateOne({ email: email }, { verificationCode: randomCode });
     
-            // Create a transporter for sending emails
             const transporter = nodemailer.createTransport({
                 service: 'Gmail',
                 auth: {
@@ -159,7 +156,6 @@ class TrendifyController {
                 }
             });
     
-            // Create an email with the random code
             const mailOptions = {
                 from: 'trendify.capstone@gmail.com',
                 to: email,

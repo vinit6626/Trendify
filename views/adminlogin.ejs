@@ -1,0 +1,139 @@
+<%- include("partials/header.ejs") -%>
+
+<div class="container login mb-5">
+    <h2 class="text-center mt-4">Trendify Admin Portal</h2>
+    <p style="color:red" class="text-center"></p>
+
+    <% if (msg) { %>
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong><%= msg %></strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    <% } %>
+    
+    <div class="row">
+      <!-- login -->
+      <div class="col-sm-6">
+
+        <div class="card">
+          <div class="card-body">
+            <form name="myForm" action="/admin_register_user" method="post" class="container userForm" onsubmit="return validateForm()">
+              <h3 class="card-title center mb-4 text-center"><b>Sign up</b></h3>
+              <div class="form-group">
+                  <label for="exampleInputEmail1">Email</label>
+                  <input type="email" class="form-control padding04" id="exampleInputEmail1"
+                         aria-describedby="emailHelp" name="email" placeholder="Enter email">
+              </div>
+              <a href="createPassword">If you have code then create your password.</a>
+
+              <p class="text-center mt-3">
+                  <button type="submit" class="btn btn-primary">Send Verification Code</button>
+              </p>
+          </form>
+          
+          </div>
+        </div>
+      </div>
+      <!-- login end -->
+      
+      <!-- sign up  -->
+
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-body">
+            <form name="myForm1" action="/admin_verification" method="post" class="container userForm" onsubmit="return validateForm1()">
+              <h3 class="card-title center mb-4 text-center "><b>Login</b></h3>
+
+              <div class="form-group">
+                <label for="exampleInputEmail2">Email</label>
+                <input type="email" class="form-control padding04" id="exampleInputEmail2"
+                  aria-describedby="emailHelp" name="email"  placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword3">Password</label>
+                <input type="password" class="form-control padding04" id="exampleInputPassword3"
+                  placeholder="Password" name="password"  >
+                <span id="message1" style="color:red"></span>
+
+              </div>
+              <a href="passwordreset">Forgot Password</a>
+              <p class="text-center">
+              <button type="submit" class="btn btn-primary">Login</button>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  </body>
+  <script>
+    function validateForm(){
+      var pw1 = document.getElementById("exampleInputPassword1").value;  
+      var pw2 = document.getElementById("exampleInputPassword2").value;  
+  
+      if(pw1 != pw2) {  
+          document.getElementById("message2").innerHTML = "**Passwords are not same";  
+          return false;  
+        } else {  
+          return true;
+        }  
+    }
+  </script>
+
+  <!-- Add this script in the <head> section of your HTML -->
+<script>
+  function validateForm() {
+    const email = document.forms["myForm"]["email"].value;
+    const password = document.forms["myForm"]["password"].value;
+    const confirmPassword = document.forms["myForm"]["c_password"].value;
+    const message = document.getElementById("message2");
+
+    if (email === "") {
+      message.innerHTML = "Email must be filled out";
+      return false;
+    }
+
+    if (password === "") {
+      message.innerHTML = "Password must be filled out";
+      return false;
+    }
+
+    // if (password.length < 8) {
+    //   message.innerHTML = "Password must be at least 8 characters long";
+    //   return false;
+    // }
+
+    if (password !== confirmPassword) {
+      message.innerHTML = "Passwords do not match";
+      return false;
+    }
+    return true;
+  }
+</script>
+
+<script>
+  function validateForm1() {
+    const email = document.forms["myForm1"]["email"].value;
+    const password = document.forms["myForm1"]["password"].value;
+    const message = document.getElementById("message1");
+
+    if (email === "") {
+      message.innerHTML = "Email must be filled out";
+      return false;
+    }
+
+    if (password === "") {
+      message.innerHTML = "Password must be filled out";
+      return false;
+    }
+
+    
+    return true;
+  }
+</script>
+
+<%- include("partials/footer.ejs") -%>

@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const TrendifyControllers = require('../controllers/TrendifyController.js');
+const AdminControllers = require('../controllers/AdminController.js');
 
 router.get('/login', TrendifyControllers.loginController);
 router.post('/register_user', TrendifyControllers.registerUserController);
@@ -20,5 +21,18 @@ router.post('/profileupdate', TrendifyControllers.profileUpdateController);
 router.get('/home', TrendifyControllers.homeController);
 router.get('/contactus', TrendifyControllers.contactusController);
 router.get('/aboutus', TrendifyControllers.aboutusController);
+
+
+
+
+
+router.get('/Trendify_AdminLogin', AdminControllers.adminLoginController);
+router.post('/admin_register_user', AdminControllers.registerAdminController);
+router.get('/createPassword', AdminControllers.createPasswordController);
+router.post('/adminupdatepassword', AdminControllers.adminUpdatePasswordController);
+router.post('/admin_verification', TrendifyControllers.adminVerificationController);
+
+
+
 
 module.exports = router
