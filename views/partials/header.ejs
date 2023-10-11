@@ -39,7 +39,19 @@
           <a class="nav-link" href="#">Product</a>
         </li>
         <% } %>
-        
+        <% if (typeof email !== 'undefined' && type === "admin") { %>
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Manage Section
+              </a>
+              <div class="dropdown-menu" aria-labelledby="adminDropdown">
+                  <a class="dropdown-item" href="#">Add Brand</a>
+                  <hr>
+                  <a class="dropdown-item" href="#">Add Product</a>
+              </div>
+          </li>
+          <% } %>
+          
         <li class="nav-item">
           <a class="nav-link" href="aboutus">About us</a>
         </li>
@@ -48,7 +60,7 @@
         </li>
       </ul>
       <ul class="navbar-nav ml-auto">
-        <% if (typeof email !== 'undefined' && type === "user") { %>
+        <% if (email !== 'undefined' && type === "user" || type == "admin" ) { %>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Hello, <%= email  %>

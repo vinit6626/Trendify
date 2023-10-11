@@ -8,10 +8,8 @@ mongoose.connect("mongodb+srv://trendifycapstone:TrendifyCapstone@cluster0.8lsre
 
 
 const userDataSchema = mongoose.Schema({
-    fName: {type: String, default: 'default'},
-    lName:  {type: String, default: 'default'}, 
     email:  {type: String, unique:true},
-    password: {type: String, default: 'default'},
+    password: {type: String},
     fname: {type: String, default: 'default'},
     lname: {type: String, default: 'default'},
     address: {type: String, default: 'default'},
@@ -20,9 +18,12 @@ const userDataSchema = mongoose.Schema({
     userType: {type: String, default: 'user'},
     date_of_create: {type: String, default: Date.now },
     verificationCode: {type: String, default: 'default'}
+
 })
 
 const userDataModel = mongoose.model("userData", userDataSchema);
 
+
 module.exports = userDataModel;
+
 

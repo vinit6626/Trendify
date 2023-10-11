@@ -38,7 +38,7 @@
                        placeholder="Confirm password" name="c_password">
                 <span id="message2" style="color:red"></span>
             </div>
-            <a href="login">Login</a>
+            <a href="trendify_adminlogin">Login</a>
             <p class="text-center">
               <button type="submit" class="btn btn-primary">Update Password</button>
             </p>
@@ -54,37 +54,48 @@
 <script>
     function validateForm() {
       var email = document.forms["myForm1"]["email"].value;
+      var verificationCode = document.forms["myForm1"]["verificationCode"].value;
       var password = document.forms["myForm1"]["password"].value;
       var c_password = document.forms["myForm1"]["c_password"].value;
-      var c_password = document.forms["myForm1"]["c_password"].value;
-      var verificationCode = document.forms["myForm1"]["verificationCode"].value;
-  
-      var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  
-      document.getElementById("message").innerHTML = "";
-      document.getElementById("message1").innerHTML = "";
-      document.getElementById("message2").innerHTML = "";
-      document.getElementById("code").innerHTML = "";
-  
-      if (!email.match(emailPattern)) {
-        document.getElementById("message").innerHTML = "Please enter a valid email address.";
+      var emailPattern = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    
+      // Reset error messages
+      document.getElementById("message").textContent = "";
+      document.getElementById("code").textContent = "";
+      document.getElementById("message1").textContent = "";
+      document.getElementById("message2").textContent = "";
+    
+      // Validate email
+      if (email === "") {
+        document.getElementById("message").textContent = "Email is required.";
+        return false;
+      } else if (!email.match(emailPattern)) {
+        document.getElementById("message").textContent = "Invalid email address.";
         return false;
       }
-      if (password.length < 5) {
-        document.getElementById("code").innerHTML = "Please enter a valid code.";
+    
+      // Validate verification code
+      if (verificationCode === "") {
+        document.getElementById("code").textContent = "Verification Code is required.";
         return false;
       }
-      if (password.length < 8) {
-        document.getElementById("message1").innerHTML = "Password must be at least 8 characters long.";
+    
+      // Validate password
+      if (password === "") {
+        document.getElementById("message1").textContent = "Password is required.";
         return false;
       }
-  
-      if (password !== c_password) {
-        document.getElementById("message2").innerHTML = "Passwords do not match.";
+    
+      // Validate confirm password
+      if (c_password === "") {
+        document.getElementById("message2").textContent = "Confirm Password is required.";
+        return false;
+      } else if (password !== c_password) {
+        document.getElementById("message2").textContent = "Passwords do not match.";
         return false;
       }
-  
-      return true; 
+    
+      return true; // Form is valid
     }
-  </script>
-  
+    </script>
+    
