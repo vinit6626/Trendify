@@ -1,0 +1,71 @@
+<%- include("../partials/header.ejs") -%>
+
+<% if (msg) { %>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong><%= msg %></strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  <% } %>
+  
+<div class="container mt-5" style="width:35%;">
+    <h2 class="text-center mb-5"><u>Add Category</u></h2>
+    <form name="myForm" action="/addcategory" method="post" class="container userForm brandform" onsubmit="return validateForm()">
+        <div class="form-group">
+            <label for="categoryName"><b>Category Name</b></label>
+            <input type="text" class="form-control" id="categoryName" placeholder="Enter Category name e.g Top wear" name="categoryName">
+            <span id="categoryNameError" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label><b>Category Visibility</b></label>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="visibleField1" name="categoryvisibility" value="visible" checked>
+                <label class="form-check-label" for="visibleField1">Visible</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="visibleField2" name="categoryvisibility" value="hide">
+                <label class="form-check-label" for="visibleField2">Hide</label>
+            </div>
+            <span id="visibleFieldError" class="text-danger"></span>
+        </div>
+        
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+
+<%- include("../partials/footer.ejs") -%>
+
+
+<script>
+    function validateForm() {
+        var categoryName = document.getElementById("categoryName").value;
+        var visibleField1 = document.getElementById("visibleField1").checked;
+        var visibleField2 = document.getElementById("visibleField2").checked;
+        
+        // Simple validation for brand name
+        if (categoryName.trim() === "") {
+            document.getElementById("categoryNameError").innerText = "Category name is required";
+            return false;
+        } else {
+            document.getElementById("categoryNameError").innerText = "";
+        }
+    
+        // Validation for radio buttons
+        if (!visibleField1 && !visibleField2) {
+            document.getElementById("visibleFieldError").innerText = "Please select a visibility option";
+            return false;
+        } else {
+            document.getElementById("visibleFieldError").innerText = "";
+        }
+    
+        // If all fields are valid, the form will be submitted
+        return true;
+    }
+    </script>
+
+   
