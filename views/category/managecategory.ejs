@@ -1,0 +1,74 @@
+<%- include("../partials/header.ejs") -%>
+
+<!-- <div class="container mt-5"> -->
+
+    <h2 class="text-center my-4"><u>Manage Category</u></h2>
+    <p class="text-center my-3"><a href="/category" >Add more Category</a></p>
+    <table class="table table-hover categoryform" style="width:90%; margin:auto;">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Visibility</th>
+            <th scope="col">Created By</th>
+            <th scope="col">Created Date</th>
+            <th scope="col">Updated By</th>
+            <th scope="col">Updated Date</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+            <% if(category_data.length >0) { %>
+                <% category_data.forEach(function(category, index) { %>
+                    <tr>
+                        <th scope="row"><%= index + 1 %></th>
+                        <td><b><%= category.category_name %></b></td>
+                    <td>
+                        <% if (category.category_visibility == "visible") { %>
+
+                        <div class="circle bg-success rounded-circle d-flex align-items-center justify-content-center" style="width:17px; height:17px; color:green;">
+                        </td>
+                    <% }else{%>
+                        <div class="circle bg-danger rounded-circle d-flex align-items-center justify-content-center" style="width:17px; height:17px; color:green;">
+                        </td> 
+
+                    <%}%>
+                    <td><%= category.category_addedBy %></td>
+                    <td><%= new Date(category.category_created_date).toString().substring(4, 15)
+                        %></td>
+
+                    <td>
+                        <% if (category.category_updatedBy === "default") { %>
+                            <i class="fas fa-minus"></i>
+
+                        <% } else { %>
+                            <%= category.category_updatedBy %>
+                        <% } %>
+                    </td>
+                    <td>
+                        <% if (category.category_updated_date === "default") { %>
+                            <i class="fas fa-minus"></i>
+
+                        <% } else { %>
+                            <%= new Date(category.category_updated_date).toString().substring(4, 15)
+                        %>
+                        <% } %>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" style="color:white;" href="/editcategory/<%= category._id.toString() %>" ><i class="fa-solid fa-pen-to-square"></i></a>
+                        <% if(category.productCount == 0){%>
+                        <a style="color:white;" class="btn btn-danger" href="/deletecategory/<%= category._id.toString() %>"><i class="fa-solid fa-trash-can"></i></a>
+                        <% }%>
+                    </td>
+                </tr>
+            <% }); %>
+            <% }else{ %>
+                <td colspan="8" class="text-center">
+                    No data available
+                </td>
+            <% } %>
+        </tbody>
+      </table>
+</div>
+<%- include("../partials/footer.ejs") -%>
+
