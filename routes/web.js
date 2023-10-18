@@ -4,6 +4,7 @@ const router = express.Router();
 
 const TrendifyControllers = require('../controllers/TrendifyController.js');
 const AdminControllers = require('../controllers/AdminController.js');
+const CategoryControllers = require('../controllers/CategoryController.js');
 
 //user side routes
 router.get('/login', TrendifyControllers.loginController);
@@ -30,6 +31,12 @@ router.get('/createPassword', AdminControllers.createPasswordController);
 router.post('/adminupdatepassword', AdminControllers.adminUpdatePasswordController);
 router.post('/admin_verification', AdminControllers.adminVerificationController);
 
+
+// Category routes
+router.get("/category", CategoryControllers.categoryController)
+router.post('/addcategory', CategoryControllers.addCategoryController);
+router.get("/managecategory", CategoryControllers.manageCategoryController)
+router.get('/deletecategory/:id', CategoryControllers.deleteCategoryController);
 
 
 module.exports = router
