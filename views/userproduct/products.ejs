@@ -1,0 +1,54 @@
+<%- include("../partials/header.ejs") -%>
+
+<div class="container mt-4">
+
+    <div class="row my-4">
+        <% productsData.forEach(product => { %>
+            <div class="col-md-4 my-5">
+                <div class="card">
+                    <img src="./uploads/<%= product.product_image_path %>" class="card-img-top" alt="<%= product.product_title %>" >
+
+                    <div class="card-body">
+                        <h5 class="card-title"><%= product.product_title.length > 30 ? product.product_title.slice(0, 30) + '...' : product.product_title %></h5>
+                        <p class="card-text"><%= product.product_description.length > 30 ? product.product_description.slice(0, 30) + '...' : product.product_description %></p>
+                        <p class="text-muted">
+                            <% if (product.product_gender === 'm') { %>
+                                Male
+                            <% }else{ %> 
+                                Female
+                            <% }%>| 
+                            <%= product.gender %>
+                            <%= product.product_size %>
+                        </p>
+                        <p class="card-text"><b>$<%= product.product_price %></b></p>
+                        <div class="text-center">
+                        <a class="btn btn-primary text-center" href="/viewproduct/<%= product._id.toString() %>">View Product</a>
+                        <a class="btn btn-success text-center" href="/viewproduct">View Product</a>
+                    </div>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">
+                            <% brandData.forEach(brand => { %>
+                                <% if (brand._id.toString() === product.product_brand_id.toString()) { %>
+                                    <%= brand.brand_name %>
+                                <% } %>
+                            <% }); %>
+                            | 
+                            <% categoryData.forEach(category => { %>
+                                <% if (category._id.toString() === product.product_category_id.toString()) { %>
+                                    <%= category.category_name %>
+                                <% } %> 
+                            <% }); %>
+                            |
+                            <%= product.product_sku %>
+                        </small>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+        
+        
+    </div>
+</div> 
+  
+<%- include("../partials/footer.ejs") -%>

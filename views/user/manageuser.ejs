@@ -1,0 +1,76 @@
+<%- include("../partials/header.ejs") -%>
+
+<!-- <div class="container mt-5"> -->
+
+    <h2 class="text-center my-4"><u>Manage User</u></h2>
+    <div style="overflow-x: auto;">
+    <table class="table table-hover categoryform" style="width:90%; margin:auto;">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Address</th>
+            <th scope="col">Contact Number</th>
+            <th scope="col">Contact Methods</th>
+            <th scope="col">Action</th>
+            <th scope="col">A/C Status</th>
+          </tr>
+        </thead>
+       <tbody>
+        <% if(userData.length > 0) { %>
+            <% userData.forEach(function(user, index) { %>
+                <tr>
+                    <th scope="row"><%= index + 1 %></th>
+                    <td>
+                        <% if (user.fname === 'default' && user.lname === 'default') { %>
+                        Not Set By User
+                    <% } else { %>
+                        <b><%= user.fname + ' ' + user.lname %></b>
+                    <% } %>
+                    </td>
+                    <td><%= user.email %></td>
+                    <td><%= user.address %></td>
+                    <td><%= user.contactno %></td>
+                    <td>
+                        <a href="tel:<%= user.contactno %>" class="btn btn-primary m-1" title="Click to Call <%= user.fname + ' ' + user.lname %> ">
+                            <i class="fa-sharp fa-solid fa-square-phone"></i>
+                        </a>
+
+                        <a class="btn btn-success m-1" style="color: white;" href="http://wa.me/<%= user.contactno %>"  title="Click to Whatsapp <%= user.fname + ' ' + user.lname %> ">
+                        <i class="fa-sharp fa-solid fa-message"></i></a>
+
+                        <a href=mailto:<%= user.email %> class="btn btn-primary m-1" >
+                        <i class="fa-solid fa-envelope"></i></a>
+                    </td>
+                    <td>
+                        <a class="btn btn-primary" style="color: white;" href="/edituser/<%= user._id.toString() %>" title="Click to send mail <%= user.fname + ' ' + user.lname %> ">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                        </a>
+                        <!-- Add any condition to display the delete button here -->
+                    </td>
+                    <td>
+                        <% if (user.status === 'deactive') { %>
+                            <a class="btn btn-success" style="color: white;" href="/active/<%= user._id.toString() %>" title="Click to Active <%= user.fname + ' ' + user.lname %> "><i class="fa-solid fa-lock-open"></i>
+                            </a>
+
+                        <% } else { %>
+                            <a class="btn btn-danger" style="color: white;" href="/blockuser/<%= user._id.toString() %>" title="Click to Block <%= user.fname + ' ' + user.lname %> ">
+                                <i class="fa-solid fa-lock"></i></a>
+                        <% } %>
+                    </td>
+                </tr>
+            <% }); %>
+        <% } else { %>
+            <tr>
+                <td colspan="8" class="text-center">
+                    No data available
+                </td>
+            </tr>
+        <% } %>
+        
+       </tbody>
+      </table>
+    </div>
+<%- include("../partials/footer.ejs") -%>
+
