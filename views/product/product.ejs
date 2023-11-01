@@ -1,0 +1,294 @@
+<%- include("../partials/header.ejs") -%>
+
+<% if (msg) { %>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong><%= msg %></strong>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  <% } %>
+  
+<div class="container mt-5" style="width:40%;">
+    <h2 class="text-center mb-5"><u>Add Product</u></h2>
+    <form name="myForm" action="/addproduct" method="post" class="container userForm brandform" onsubmit="return validateForm()" enctype="multipart/form-data">
+        <div class="form-group">
+            <label for="productName"><b>Product Name</b></label>
+            <input type="text" class="form-control" id="productName" placeholder="Enter Product name e.g Top wear" name="productName">
+            <span id="productNameError" class="text-danger"></span>
+        </div>
+ 
+        <div class="form-group">
+            <label for="productDescription"><b>Product Description</b></label>
+            <textarea  class="form-control" id="productDescription" placeholder="Enter Product Description e.g Top wear" name="productDescription"></textarea>
+            <span id="productDescriptionError" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="product_sku"><b>Product SKU Number</b></label>
+            <label for="product_sku"> <%= sku %></label>
+            <input type="hidden" name="product_sku" value="<%= sku %>">
+        </div>
+
+        <div class="form-group">
+            <label for="productType"><b>Product Type</b></label>
+            <select class="form-control" id="productType" name="productType">
+                <option>Select Type</option>
+                <option value="topwear">Top Wear </option>
+                <option value="bottomwear">Bottom Wear</option>
+                <option value="footwear">Foot Wear</option>
+            </select>
+            <span id="productTypeError" class="text-danger"></span>
+        </div>
+        
+
+    <!-- Checkbox lists with IDs corresponding to option values -->
+    <div id="topwear-checkbox-list" class="checkbox-container my-2">
+        <b>Top wear - <img src="./images/tshirt.png" style="width: 30px;"></b>
+        <div class="checkboxrow">
+            <input type="checkbox" id="productQuantityXS" name="product_size" value="XS" />
+            <label for="productQuantityXS">XS</label>
+        </div>
+        <div class="checkboxrow">
+            <input type="checkbox" id="productQuantityS" name="product_size" value="S"/>
+            <label for="productQuantityS">S</label>
+        </div>
+        <div class="checkboxrow">
+            <input type="checkbox" id="productQuantityM" name="product_size" value="M"/>
+            <label for="productQuantityM">M</label>
+        </div>
+        <div class="checkboxrow">
+            <input type="checkbox" id="productQuantityL" name="product_size" value="L"/>
+            <label for="productQuantityL">L</label>
+        </div>
+        <div class="checkboxrow">
+            <input type="checkbox" id="productQuantityXL" name="product_size" value="XL"/>
+            <label for="productQuantityXL">XL</label>
+        </div>
+    </div>
+    <div id="bottomwear-checkbox-list" class="checkbox-container my-2">
+        <b>Bottom wear - <img src="./images/pants.png" style="width: 30px;"></b>
+        <div class="checkboxrow">
+            <input type="checkbox" id="productQuantity28" name="product_size" value="28" />
+            <label for="productQuantity28">28</label>
+        </div>
+        <div class="checkboxrow">
+            <input type="checkbox" id="productQuantity30" name="product_size" value="30"/>
+            <label for="productQuantity30">30</label>
+        </div>
+        <div class="checkboxrow">
+            <input type="checkbox" id="productQuantity32" name="product_size" value="32"/>
+            <label for="productQuantity32">32</label>
+        </div>
+        <div class="checkboxrow">
+            <input type="checkbox" id="productQuantity34" name="product_size" value="34"/>
+            <label for="productQuantity30">34</label>
+        </div>
+        <div class="checkboxrow">
+            <input type="checkbox" id="productQuantity36" name="product_size" value="36"/>
+            <label for="productQuantity30">36</label>
+        </div>
+        <!-- Add more bottom wear checkboxes here -->
+    </div>
+
+    <div id="footwear-checkbox-list" class="checkbox-container my-2">
+        <b>Foot wear - <img src="./images/sneakers.png" style="width: 30px;"> </b>
+        <div class = "checkboxrow">
+            <input type="checkbox" id="productQuantity8" name="product_size" value="8" />
+            <label for="productQuantity8">8</label>
+        </div>
+        <div class ="checkboxrow">
+            <input type="checkbox" id="productQuantity9" name="product_size" value="9"/>
+            <label for="productQuantity9">9</label>
+        </div>
+        <div class ="checkboxrow">
+            <input type="checkbox" id="productQuantity10" name="product_size" value="10"/>
+            <label for="productQuantity10">10</label>
+        </div>
+        <div class ="checkboxrow">
+            <input type="checkbox" id="productQuantity11" name="product_size" value="11"/>
+            <label for="productQuantity11">11</label>
+        </div>
+        <div class ="checkboxrow">
+            <input type="checkbox" id="productQuantity12" name="product_size" value="12"/>
+            <label for="productQuantity12">12</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+            <label for="product_brand"><b>Brand</b></label>
+            <% if(visibleBrandCount >0){%>
+            <select class="form-control" id="product_brand" name="product_brand">
+                <% brand.forEach(function(brandItem) { %>
+                    <% if(brandItem.brand_visibility == 'visible'){%>
+                    <option value="<%= brandItem._id %>"><%= brandItem.brand_name %></option>
+                   <% } %>
+                <% }); %>
+            </select>
+            <%}else{%>
+                <div>
+            <label for="product_brand">No Active Brand Available</label>
+        </div>
+            <%}%>
+            <span id="product_brandError" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <label for="product_category"><b>Category</b></label>
+            <% if(visibleCategoryCount >0){%>
+            <select class="form-control" id="product_category" name="product_category">
+                <% category.forEach(function(categoryItem) { %>
+                    <% if(categoryItem.category_visibility == 'visible'){%>
+                    <option value="<%= categoryItem._id %>"><%= categoryItem.category_name %></option>
+                   <% } %>
+                <% }); %>
+            </select>
+            <%}else{%>
+                <div>
+            <label for="product_category">No Active Brand Available</label>
+        </div>
+            <%}%>
+            <span id="product_brandError" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <label for="productQuantity"><b>Product Quantity</b></label>
+            <input type="text" class="form-control" id="productQuantity" placeholder="Enter Product Quantity e.g 50" name="productQuantity">
+            <span id="productQuantityError" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="productPrice"><b>Product Price</b></label>
+            <input type="text" class="form-control" id="productPrice" placeholder="Enter Product Price e.g 49.99" name="productPrice">
+            <span id="productPriceError" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <label><b>Gender</b></label>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="male" name="gender" value="m" checked>
+                <label class="form-check-label" for="male">Male</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="female" name="gender" value="f">
+                <label class="form-check-label" for="female">Female</label>
+            </div>
+            <span id="visibleFieldError" class="text-danger"></span>
+        </div>
+        
+
+
+        <div class="form-group">
+            <label><b>Product Visibility</b></label>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="visibleField1" name="productvisibility" value="visible" checked>
+                <label class="form-check-label" for="visibleField1">Visible</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" class="form-check-input" id="visibleField2" name="productvisibility" value="hide">
+                <label class="form-check-label" for="visibleField2">Hide</label>
+            </div>
+            <span id="visibleFieldError" class="text-danger"></span>
+        </div>
+        
+        
+        <div class="form-group">
+            <label for="productImage"><b>Product Image</b></label>
+            <input type="file"  id="productImage" name="productImage">
+            <span id="productImageError" class="text-danger"></span>
+            <div>
+                <small class="text-muted">
+                    Please select a vertical image in high resolution to appear better to user.
+                </small>
+            </div>
+        </div>
+ 
+
+        <% if(visibleBrandCount >0 && visibleCategoryCount >0){%>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+        <%}%>
+
+    </form>
+</div>
+
+<%- include("../partials/footer.ejs") -%>
+<script>
+    function validateForm() {
+        // Clear all previous error messages
+        document.getElementById("productNameError").textContent = "";
+        document.getElementById("productDescriptionError").textContent = "";
+        document.getElementById("productQuantityError").textContent = "";
+        document.getElementById("productTypeError").textContent = "";
+        document.getElementById("productPriceError").textContent = "";
+        document.getElementById("productImageError").textContent = "";
+    
+        // Get the form input values
+        const productName = document.getElementById("productName").value;
+        const productDescription = document.getElementById("productDescription").value;
+        const productQuantity = document.getElementById("productQuantity").value;
+        const productType = document.getElementById("productType").value;
+        const productPrice = document.getElementById("productPrice").value;
+        const productImage = document.getElementById("productImage").value;
+    
+        // Define regular expressions for validation
+        const integerPattern = /^[0-9]+$/;
+        const decimalPattern = /^[0-9]+(\.[0-9]+)?$/;
+    
+        // Validation checks
+        let valid = true;
+        if (productName === "") {
+            document.getElementById("productNameError").textContent = "Product Name is required.";
+            valid = false;
+        }
+        if (productDescription === "") {
+            document.getElementById("productDescriptionError").textContent = "Product Description is required.";
+            valid = false;
+        }
+        if (productQuantity === "" || !integerPattern.test(productQuantity)) {
+            document.getElementById("productQuantityError").textContent = "Product Quantity must be a non-empty integer.";
+            valid = false;
+        }
+        if (productType === "Select Type") {
+            document.getElementById("productTypeError").textContent = "Please select a Product Type.";
+            valid = false;
+        }
+        if (productPrice === "" || (!integerPattern.test(productPrice) && !decimalPattern.test(productPrice))) {
+            document.getElementById("productPriceError").textContent = "Product Price must be a non-empty integer or decimal.";
+            valid = false;
+        }
+        if (productImage === "") {
+            document.getElementById("productImageError").textContent = "Product Image is required.";
+            valid = false;
+        }
+    
+        // If all validation checks pass, the form will submit
+        return valid;
+    }
+    </script>
+    
+
+  
+    
+  <script>
+    $(document).ready(function() {
+        // Hide all checkbox lists initially
+        $("#topwear-checkbox-list, #bottomwear-checkbox-list, #footwear-checkbox-list").hide();
+
+        // Add an event listener to the "Product Type" dropdown
+        $("#productType").change(function() {
+            const selectedOption = $(this).val();
+
+            // Hide all checkbox lists
+            $("#topwear-checkbox-list, #bottomwear-checkbox-list, #footwear-checkbox-list").hide();
+
+            // Show the selected checkbox list
+            $(`#${selectedOption}-checkbox-list`).show();
+        });
+    });
+</script>

@@ -80,3 +80,68 @@ footer{
         color: #DBCBB3;
     }
     /* Home end */
+
+    /* Add Brand start */
+    .brandform {
+        border: 1px solid #ccc; 
+        border-radius: 10px; 
+        padding: 20px; 
+    }
+    /* Add Brand end */
+
+
+      /* Add Brand start */
+      .categoryform {
+        border: 1px solid #ccc; 
+        border-radius: 10px; 
+        padding: 20px; 
+    }
+    /* Add Brand end */
+
+
+
+
+    /* add product start */
+    .checkbox-container {
+        display: flex;
+        flex-direction: row;
+        gap: 10px; 
+    }
+    
+    .checkboxrow{
+        margin-right: 20px;
+    }
+    /* add product end */
+
+    /* manage product start */
+    .table-container {
+        width: 90%;
+        margin: auto; 
+        overflow-x: auto;
+      }
+      
+      /* Optional: To style the scrollbar */
+      .table-container::-webkit-scrollbar {
+        width: 12px;
+      }
+      
+      .table-container::-webkit-scrollbar-thumb {
+        background: #888;
+      }
+      
+      .table-container::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+
+      .filter-form {
+        display: none; /* Initially hide the form */
+      }
+    /* manage product end */
+    /* user products start */
+    .card-img-top{
+        height: 450px;
+    }
+    .productimage{
+        height: 80%;
+    }
+    /* user products end */
