@@ -1,10 +1,78 @@
 <%- include("../partials/header.ejs") -%>
+<div class="text-center m-4">
+    <h2>Products</h2>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-sm-12">
+        <div class="sticky-top mt-5">
+            <form name="myForm" action="/filterproduct" method="post">
+            <h2>Filter</h2>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" placeholder="e.g Nike Jordan 1" name="productName">
+            </div>
 
-<div class="container mt-4">
+            <div class="form-group">
+                <label>Gender:</label><br>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="gender" id="male" value="m">
+                    <label class="form-check-label" for="male">Male</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="gender" id="female" value="f">
+                    <label class="form-check-label" for="female">Female</label>
+                </div>
+            </div>
+        
+            <!-- Brand Selection (Vertical Form) -->
+            <div class="form-group">
+                <label for="brand">Brand:</label>
+                <select class="form-control" id="product_brand" name="product_brand">
+            <option value="Select Brand">Select Brand</option>
 
-    <div class="row my-4">
+                    <% brandData.forEach(function(brandItem) { %>
+                        <% if(brandItem.brand_visibility == 'visible'){%>
+                        <option value="<%= brandItem._id %>"><%= brandItem.brand_name %></option>
+                       <% } %>
+                    <% }); %>
+                </select>
+            </div>
+        
+            <!-- Category Selection (Vertical Form) -->
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <select class="form-control" id="product_category" name="product_category">
+            <option value="Select Category">Select Category</option>
+
+                    <% categoryData.forEach(function(categoryItem) { %>
+                        <% if(categoryItem.category_visibility == 'visible'){%>
+                        <option value="<%= categoryItem._id %>"><%= categoryItem.category_name %></option>
+                       <% } %>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Sort By Price:</label><br>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="priceSort" id="lowToHigh" value="lowToHigh">
+                    <label class="form-check-label" for="lowToHigh">Low to High</label>
+                </div>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" name="priceSort" id="highToLow" value="highToLow">
+                    <label class="form-check-label" for="highToLow">High to Low</label>
+                </div>
+            </div>
+            <div class="form-group text-center">
+                <button class="btn btn-primary">Search</button>
+            </div>
+        </form>
+        </div> 
+    </div>
+    <div class="col-md-9 col-sm-12">
+        <div class="row">
         <% productsData.forEach(product => { %>
-            <div class="col-md-4 my-5">
+                <div class="col-md-4 col-sm-6 mb-4">
                 <div class="card">
                     <img src="./uploads/<%= product.product_image_path %>" class="card-img-top" alt="<%= product.product_title %>" >
 
@@ -23,7 +91,6 @@
                         <p class="card-text"><b>$<%= product.product_price %></b></p>
                         <div class="text-center">
                         <a class="btn btn-primary text-center" href="/viewproduct/<%= product._id.toString() %>">View Product</a>
-                        <a class="btn btn-success text-center" href="/viewproduct">View Product</a>
                     </div>
                     </div>
                     <div class="card-footer">
@@ -44,11 +111,11 @@
                         </small>
                     </div>
                 </div>
-            </div>
+        </div>
         <% }); %>
-        
-        
     </div>
-</div> 
+    </div>
+</div>
+</div>
   
 <%- include("../partials/footer.ejs") -%>
