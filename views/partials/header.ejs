@@ -37,7 +37,7 @@
         </li>
         <% if (typeof email !== 'undefined' && type === "user") { %>
         <li class="nav-item">
-          <a class="nav-link" href="#">Product</a>
+          <a class="nav-link" href="/userproducts">Product</a>
         </li>
         <% } %>
         <% if (typeof email !== 'undefined' && type === "admin") { %>
@@ -54,6 +54,10 @@
                   <hr>
                   <a class="dropdown-item" href="/product">Add Product</a>
                   <a class="dropdown-item" href="/manageproduct">Manage Product</a>
+                  <hr>
+                  <a class="dropdown-item" href="/manageuser">Manage User</a>
+                  <hr>
+                  <a class="dropdown-item" href="/userproducts">Listed Products</a>
               </div>
           </li>
           <% } %>
