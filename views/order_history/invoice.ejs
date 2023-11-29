@@ -1,0 +1,91 @@
+<%- include("../partials/header.ejs") -%>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="invoice-container">
+        <h2 class="mb-4 text-center">Invoice</h2>
+
+        <h5 >Order ID: <%= invoice[0].order_id%></h5>
+        <p class="mb-4"><strong>Order Date: <%= invoice[0].order_date %></strong></p>
+
+        <div class="row">
+          <div class="col-md-6">
+            <h5>Billing Details:</h5>
+            <p><strong>Name:</strong> <%= invoice[0].user_name %></p>
+            <p><strong>Email:</strong> <%= invoice[0].user_id %></p>
+            
+            <p><strong>Phone Number:</strong> <%= invoice[0].user_phone %></p>
+          </div>
+          <div class="col-md-6">
+            <h5>Shipping Details:</h5>
+            <p><strong>Address:</strong> <%= invoice[0].user_address %></p>
+            <p><strong>Zip Code:</strong> <%= invoice[0].user_zipcode %></p>
+            <p><strong>Province:</strong> <%= invoice[0].user_province %></p>
+            </div>
+        </div>
+
+        <table class="table mt-4">
+          <thead>
+            <tr>
+              <th>Product Title</th>
+              <th>Size</th>
+              <th>Price</th>
+              <th>Quantity</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+      
+          <tbody>
+            <% invoice.forEach((item, index) => { %>
+              <% const productTitles = JSON.parse(item.product_title); %>
+              <% const productPrices = JSON.parse(item.product_price); %>
+              <% const productSizes = JSON.parse(item.product_size); %>
+              <% const productQuantities = JSON.parse(item.product_quantity); %>
+          
+              <% if (Array.isArray(productTitles)) { %>
+                <% for (let i = 0; i < productTitles.length; i++) { %>
+                  <tr>
+                    <!-- <td class="text-center"><%= index + 1 %></td> -->
+                    <td>
+                        <%= productTitles[i] %>
+                    </td>
+                    <td><%= productSizes[i] %></td>
+                    <td>$<%= productPrices[i] %></td>
+                    <td><%= productQuantities[i] %></td>
+                    <td>$<%= productPrices[i] * productQuantities[i] %></td> <!-- New column for total -->
+                    <!-- Add any other columns as needed -->
+                  </tr>
+                <% } %>
+              <% } else { %>
+                <tr>
+                  <!-- <td class="text-center"><%= index + 1 %></td> -->
+                  <td>
+                     <%= productTitles %> 
+                  </td>
+                  <td><%= productSizes %></td>
+                  <td>$<%= productPrices %></td>
+                  <td><%= productQuantities %></td>
+                  <td>$<%= productPrices * productQuantities %></td> <!-- New column for total -->
+                  <!-- Add any other columns as needed -->
+                </tr>
+              <% } %>
+          
+            <% }); %>
+          </tbody>
+          
+          
+          
+          </table>
+
+        <div class="text-right">
+          <h4>Grand Total: <%= invoice[0].product_grand_total %></h4>
+          <h6 class="text-center">This is computer generated invoice you do not need any sign on it.</h6>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include("../partials/footer.ejs") -%>

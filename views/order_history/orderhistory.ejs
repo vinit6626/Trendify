@@ -1,0 +1,41 @@
+<%- include("../partials/header.ejs") -%>
+<table class="table" id="cartTable">
+  <% if (history.length === 0) { %>
+    <p class="text-center mt-4">You haven't ordered anything yet.</p>
+  <% } else { %>
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Order ID</th>
+        <th scope="col">Product Name</th>
+        <th scope="col">Order Date</th>
+        <th scope="col">Status</th>
+        <th scope="col">View Invoice</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% history.forEach((item, index) => { %>
+        <% const productTitles = JSON.parse(item.product_title); %>
+
+        <tr>
+          <td class="text-center"><%= index + 1 %></td>
+          <td><%= item.order_id %></td>
+          <td>
+            <% if (Array.isArray(productTitles)) { %>
+              <a href="orderdetails/<%= item.order_id %>"><%= productTitles.join(', ') %></a>
+            <% } else { %>
+              <a href="orderdetails/<%= item.order_id %>"><%= productTitles %></a>
+            <% } %>
+          </td>
+          <td><%= item.order_date.toString().substring(0, 10) %></td>
+          <td><button class="btn btn-success"><i class="fa-solid fa-location-dot" style="color: #ffffff;"></i></button></td>
+          <td><a href="orderstatus/<%= item.order_id %>"><button class="btn btn-primary"><i class="fa-solid fa-receipt" style="color: #ffffff;"></i></button></a></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  <% } %>
+</table>
+
+  
+
+<%- include("../partials/footer.ejs") -%>

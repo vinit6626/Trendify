@@ -1,0 +1,203 @@
+<%- include("../partials/header.ejs") -%>
+
+<form action="/checkout" method="post">
+
+<div class="container mt-5">
+  <h1>Your Cart</h1>
+  <table class="table" id="cartTable">
+    <thead>
+      <% if (cartItems.length === 0) { %>
+        <p>There are no items in your cart.</p>
+      <% } else { %>
+        <tr>
+          <th scope="col">Image</th>
+          <th scope="col">Product Name</th>
+          <th scope="col">Unit Price</th>
+          <th scope="col">Size</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Total Price</th>
+          <th scope="col">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% cartItems.forEach(item => { %>
+          <tr>
+            <% productItems.forEach(function(product) { %>
+              <% if (product._id.toString() === item.product_id) { %>
+                <td><img src="../uploads/<%= product.product_image_path %>" alt="Product Image" class="img-thumbnail" style="max-width: 100px;"></td>
+                <td><a href="/viewproduct/<%= product.product_title %>" style="text-decoration: none; color: black;"><%= product.product_title %></a></td>
+              <input type="hidden" name="product_title" value="<%= product.product_title %>">
+
+                <td class="text-center">$<%= product.product_price %></td>
+                <input type="hidden" name="price" value="<%= product.product_price %>">
+
+                <td class="text-center"><%= item.size %></td>
+                <input type="hidden" name="size" value="<%= item.size %>">
+
+                <td class="text-center"><%= item.quantity %></td>
+                <input type="hidden" name="quantity" value="<%= item.quantity %>">
+
+                <td class="text-center subtotal-cell">$<%= product.product_price * item.quantity %></td>
+                <td class="text-center"><a href="/deletecartproduct/<%= item._id %>"><i class="fa-solid fa-trash"></i></a></td>
+              <% } %>
+            <% }); %>
+          </tr>
+        <% }); }%>
+      </tbody>
+    </table>
+    <% if (cartItems.length > 0) { %>
+
+    <hr>
+    <h5 id="subtotal" class="text-right" style="font-weight: bold;" >Total: $0.00</h5>
+    <input type="hidden" name="total" id="total" value="">
+    
+    <hr>
+    <div class="text-right">
+      <button type="button" class="btn btn-primary" id="checkoutButton">Checkout</button>
+    </div>
+    <% } %>
+  </div>
+  <div class="container mt-5" id="checkoutDetails" style="display: none;">
+      
+    <h2>Checkout</h2>
+      <!-- Shipping Details -->
+      <div class="form-group">
+        <label for="fullName">Full Name:</label>
+        <input type="text" class="form-control" id="fullName" name="fullName" required>
+      </div>
+      <div class="form-group">
+        <label for="address">Address:</label>
+        <input type="text" class="form-control" id="address" name="address" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="zipCode">Zip Code:</label>
+          <input type="text" class="form-control" id="zipCode" name="zipCode" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="province">Province:</label>
+          <input type="text" class="form-control" id="province" name="province" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="phoneNumber">Phone Number:</label>
+        <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" required>
+      </div>
+
+      <!-- Payment Details -->
+      <h4 class="mt-4">Payment Details</h4>
+      <div class="form-group">
+        <label for="cardNumber">Card Number:</label>
+        <input type="text" class="form-control" id="cardNumber" name="cardNumber" required>
+      </div>
+      <div class="form-group">
+        <label for="cardHolderName">Cardholder Name:</label>
+        <input type="text" class="form-control" id="cardHolderName" name="cardHolderName" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="expiryDate">Expiry Date:</label>
+          <input type="text" class="form-control" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="cvv">CVV:</label>
+          <input type="text" class="form-control" id="cvv" name="cvv" required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Place Order</button>
+  </div>
+</form>
+
+
+<script src="https://js.stripe.com/v3/"></script>
+
+  
+
+<%- include("../partials/footer.ejs") -%>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    calculateSubtotal();
+  });
+
+  function calculateSubtotal() {
+    let subtotal = 0;
+    const subtotalCells = document.querySelectorAll('.subtotal-cell');
+
+    subtotalCells.forEach(cell => {
+      subtotal += parseFloat(cell.innerText.slice(1)); // Remove the dollar sign and convert to a float
+    });
+
+    const subtotalElement = document.getElementById('subtotal');
+    subtotalElement.innerText = `Total: $${subtotal.toFixed(2)}`;
+
+    // Set the value of the hidden input field
+    const totalInput = document.querySelector('input[name="total"]');
+    totalInput.value = subtotal.toFixed(2);
+  }
+</script>
+<script>
+  $(document).ready(function () {
+    $("#checkoutButton").click(function () {
+      $("#checkoutDetails").toggle();
+    });
+  });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const checkoutButton = document.getElementById('checkoutButton');
+
+  checkoutButton.addEventListener('click', function () {
+    // Client-side input validation
+    if (!validateInputs()) {
+      // alert('Please fill in all required fields and ensure data is valid.');
+      return;
+    }
+
+    // Toggle visibility
+    document.getElementById('checkoutDetails').style.display = 'block';
+
+    // Fetch the total and send the order data
+    const fullName = document.getElementById('fullName').value;
+    const total = document.getElementById('total').value;
+    const orderData = {
+      fullName: fullName,
+      total: total,
+    };
+
+    // Make the HTTP request to your server
+    fetch('/checkout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(orderData),
+    })
+      .then(response => response.json())
+      .then(result => {
+        // Handle the result from the server
+        console.log(result);
+      })
+      .catch(error => {
+        // Handle errors
+        console.error(error);
+      });
+  });
+
+  function validateInputs() {
+    // You can add more validation logic here
+    const requiredFields = ['fullName', 'address', 'zipCode', 'province', 'phoneNumber', 'cardNumber', 'cardHolderName', 'expiryDate', 'cvv'];
+
+    for (const field of requiredFields) {
+      const value = document.getElementById(field).value.trim();
+      if (!value) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+});
+</script>
