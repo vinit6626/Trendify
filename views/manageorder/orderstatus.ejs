@@ -1,0 +1,98 @@
+<%- include("../partials/header.ejs") -%>
+
+
+<div class="container mt-4">
+    <h2 class="text-center">Order Status</h2>
+    <hr>
+
+    <!-- Order Details -->
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <h5>Order Details</h5>
+        <p><strong>Order ID:</strong> <%= history[0].order_id %></p>
+        <p><strong>Order Date:</strong> <%= history[0].order_date %></p>
+        <p><strong>Expected Delivery Date:</strong> <%= history[0].expected_delivery_date %></p>
+      </div>
+      <div class="col-md-6">
+        <h5>Shipping Details</h5>
+        <p><strong>Address:</strong> <%= history[0].user_address %></p>
+        <p><strong>Zipcode:</strong> <%= history[0].user_zipcode %></p>
+        <p><strong>Province:</strong> <%= history[0].user_province %></p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Contact Details -->
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <h5>Contact Details</h5>
+        <p><strong>Phone:</strong> <%= history[0].user_phone %></p>
+        <p><strong>Email:</strong> <%= history[0].user_id %></p>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- Product Details Table -->
+    <h5>Product Details</h5>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Product Image</th>
+          <th>Product Title</th>
+          <th>Quantity</th>
+          <th>Size</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Loop through each product -->
+        <% history.forEach((item, index) => { %>
+            <% const productTitles = JSON.parse(item.product_title); %>
+            <% const productPrices = JSON.parse(item.product_price); %>
+            <% const productSizes = JSON.parse(item.product_size); %>
+            <% const productQuantities = JSON.parse(item.product_quantity); %>
+          
+            <% if (Array.isArray(productTitles)) { %>
+              <% for (let i = 0; i < productTitles.length; i++) { %>
+<% const productIndex = productItems.findIndex(product => product.product_title === productTitles[i]); %>
+<% if (productIndex !== -1) { %>
+<% const product = productItems[productIndex]; %>
+                <tr>
+                  <td><img src="../uploads/<%= product.product_image_path %>" alt="<%= product.product_image_path %>" style ="width:120px;"></td>
+                  <td><%= product.product_sku %></td>
+                  <td><%= productTitles[i] %></td>
+                  <td><%= productSizes[i] %></td>
+                  <td>$<%= productPrices[i] %></td>
+                  <td><%= productQuantities[i] %></td>
+                  <td>$<%= productPrices[i] * productQuantities[i] %></td>
+                </tr>
+                <% } %>
+              <% } %>
+            <% } else { %>
+                <% const productIndex = productItems.findIndex(product => product.product_title === productTitles); %>
+                <% if (productIndex !== -1) { %>
+                  <% const product = productItems[productIndex]; %>
+                  <tr>
+                    <td><img src="../uploads/<%= product.product_image_path %>" alt="<%= product.product_image_path %>" style="width:120px;"></td>
+                    <td><%= product.product_sku %></td>
+                    <td><%= productTitles %></td>
+                    <td><%= productSizes %></td>
+                    <td>$<%= productPrices %></td>
+                    <td><%= productQuantities %></td>
+                    <td>$<%= productPrices * productQuantities %></td>
+                </tr>
+            <% } %>
+            <% } %>
+          
+          <% }); %>
+      </tbody>
+    </table>
+    <hr>
+    <h5 class="text-right">Grand Total: $<%= history[0].product_grand_total %></h5>
+  </div>
+
+<%- include("../partials/footer.ejs") -%>
